@@ -5,7 +5,7 @@
 <div class="container mt-3">
   <div class="row">
     <div class="col-sm">
-      {#include todo-form.html}{/include}
+      {#include todo-form.html update=false}{/include}
     </div>
     <div class="col-sm">
       <form action="/todo" method="GET" name="search" class="form-inline float-sm-right">
@@ -60,7 +60,7 @@
     </td>
     <td class="fit">
       <form action="/todo/{todo.id}/delete" method="POST" name="delete-{todo.id}">
-        <a class="btn btn-primary btn-sm" href="/todo/{todo.id}/edit" role="button">Edit</a>
+        <a class="btn btn-primary btn-sm" href="/todo/{todo.id}/edit" role="button" up-layer="new modal">Edit</a>
         <input class="btn btn-danger btn-sm" value="Delete" type="submit">
       </form>
     </td>

@@ -1,4 +1,4 @@
-<div class="modalenabled">
+<div>
   <form action="/todo/{#if update}{todo.id}/edit{#else}new{/if}" method="POST" name="todoForm" enctype="multipart/form-data">
     <div class="form-row align-items-center ml-1 mr-1">
       {#if !update}
@@ -15,7 +15,7 @@
         <select class="custom-select"  name="priority">
           <option disabled value="">Priority</option>
           {#for prio in priorities}
-          <option value="{prio}" {#if todo.priority == prio}selected{/if}>{prio}</option>
+          <option value="{prio}" {#if update && prio == todo.priority}selected{/if}>{prio}</option>
           {/for}
         </select>
       </div>
