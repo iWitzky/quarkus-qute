@@ -1,8 +1,8 @@
 package dev.morling.demos.quarkus;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-import javax.persistence.Entity;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Todo extends PanacheEntity {
