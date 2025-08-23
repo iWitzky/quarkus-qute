@@ -2,7 +2,7 @@ package dev.morling.demos.quarkus;
 
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
+import org.jboss.resteasy.reactive.PartType;
 
 
 public class TodoForm {

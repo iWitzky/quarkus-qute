@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.quarkus.qute.CheckedTemplate;
+import io.smallrye.common.annotation.Blocking;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -21,7 +22,6 @@ import jakarta.ws.rs.core.Response.Status;
 import io.quarkus.panache.common.Sort;
 import io.quarkus.panache.common.Sort.Direction;
 import io.quarkus.qute.TemplateInstance;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 
 @Path("/todo")
@@ -39,6 +39,7 @@ public class TodoResource {
     @GET
     @Consumes(MediaType.TEXT_HTML)
     @Produces(MediaType.TEXT_HTML)
+    @Blocking
     public TemplateInstance listTodos(@QueryParam("filter") String filter) {
         return Templates.todos(find(filter), Todo.count(), priorities, filter, filter != null && !filter.isEmpty());
     }
@@ -46,6 +47,7 @@ public class TodoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Blocking
     public List<Todo> listTodosJson(@QueryParam("filter") String filter) {
         return find(filter);
     }
@@ -67,7 +69,8 @@ public class TodoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Transactional
     @Path("/new")
-    public Response addTodo(@MultipartForm TodoForm todoForm) {
+    @Blocking
+    public Response addTodo(TodoForm todoForm) {
         Todo todo = todoForm.convertIntoTodo();
         todo.persist();
 
@@ -79,6 +82,7 @@ public class TodoResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/{id}/edit")
+    @Blocking
     public TemplateInstance updateForm(@PathParam("id") long id) {
         Todo loaded = Todo.findById(id);
 
@@ -93,9 +97,10 @@ public class TodoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Transactional
     @Path("/{id}/edit")
+    @Blocking
     public Object updateTodo(
         @PathParam("id") long id,
-        @MultipartForm TodoForm todoForm) {
+        TodoForm todoForm) {
 
         Todo loaded = Todo.findById(id);
 
@@ -113,6 +118,7 @@ public class TodoResource {
     @POST
     @Transactional
     @Path("/{id}/delete")
+    @Blocking
     public Response deleteTodo(@PathParam("id") long id) {
         Todo.delete("id", id);
 
