@@ -8,11 +8,12 @@
       {/if}
       <div class="mb-2 mr-sm-2">
         <label class="sr-only" for="title">Title</label>
-        <input type="text" name="title" class="form-control" id="title" placeholder="Title" required {#if update}value="{todo.title}"{/if}>
+        <input type="text" name="title" class="form-control" id="title" placeholder="Title" maxlength="200" required {#if update}value="{todo.title}"{/if}>
       </div>
 
       <div class="mb-2 mr-sm-2">
-        <select class="custom-select"  name="priority">
+        <label class="sr-only" for="prioritySelect">Priority</label>
+        <select class="custom-select" id="prioritySelect" name="priority">
           <option disabled value="">Priority</option>
           {#for prio in priorities}
           <option value="{prio}" {#if update && prio == todo.priority}selected{/if}>{prio}</option>

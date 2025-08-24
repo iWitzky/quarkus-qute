@@ -1,32 +1,25 @@
 # quarkus-qute
 
-Demo of using Quarkus with server-side templates via its Qute extension and Hotwire for client-side enhancements.
+Demo of using Quarkus with server-side templates via its Qute extension and Unpoly for client-side enhancements.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/.
 
-## Database set-up
+This project is based on the [quarkus-qute](https://github.com/gunnarmorling/quarkus-qute) project and blog post [Quarkus Qute – A Test Ride](https://www.morling.dev/blog/quarkus-qute-test-ride/) by Gunnar Morling.  
+The project is updated to the latest Quarkus and Unpoly version.  
+The project is extended with OpenID Connect authentication, Flyway schema management and Hibernate MultiTenancy.  
 
-This project uses Postgres which can be started via Docker Compose:
+## Database / Keycloak set-up
+
+This project uses Postgres and Keycloak which can be started via Docker Compose:
 
 ```shell
 cd compose
 docker-compose up
 ```
 
-A database "tododb", a user and schema are all configured automatically, so no further setup is needed.
-If the database doesn't show up in PGAdmin,
-the definition can be imported like this:
+## Unpoly
 
-```shell
-docker exec -it pgadmin_container python setup.py --load-servers /pgadmin4/servers.json --user pgadmin4@pgadmin.org
-```
-
-To browse the database, go to http://localhost:5050/browser/ and log in with user name "pgadmin4@pgadmin.org" and password "admin".
-To connect to the "tododb" database, use "todopw" as password when requested.
-
-## Hotwire
-
-This project uses [Hotwire](https://hotwire.dev/) for a smoother user experience:
+This project uses [Unpoly](https://unpoly.com/) for a smoother user experience:
 links and form submissions will be intercepted and executed as AJAX requests,
 avoiding a full page reload by replacing page fragments.
 
@@ -40,6 +33,31 @@ You can run your application in dev mode that enables live coding using:
 ```
 
 Then open the application in your browser at http://localhost:8080/todo.
+
+## User authentication with OpenID Connect and Keycloak
+
+The application uses Keycloak for user authentication.  
+Administration credentials are: `admin` / `admin`.  
+Admin console is available at http://localhost:8180/auth/.
+
+Available users: `alice`, `bob`  
+The username is used as password.
+
+Use http://localhost:8080/tokens and https://jwt.io/ to debug the tokens.
+
+Based on the Quarkus guide [Protect a web application by using OpenID Connect (OIDC) authorization code flow](https://quarkus.io/guides/security-oidc-code-flow-authentication-tutorial#write-the-application).
+
+## Hibernate MultiTenancy
+The TenantId is extracted from the IdToken and used to select the correct discriminator for the Todo entity.
+
+To use multitenancy, annotate the Todo entity field for the discriminator with '@TenantId' and enable multitenancy with 'quarkus.hibernate-orm.multitenant=DISCRIMINATOR' in the 'application.properties'.
+
+```
+    @TenantId
+    public String tenantId;
+```
+
+Based on the blog post [The Tenant Chronicles – Building a Multi-Tenant Todo App with Quarkus](https://www.the-main-thread.com/p/quarkus-multi-tenant-todo-java-hibernate) by Markus Eisele.
 
 ## Packaging and running the application
 
@@ -68,4 +86,4 @@ docker run -i --rm -p 8080:8080 --network todo-network -e QUARKUS_DATASOURCE_URL
 
 ## License
 
-This code base is available ander the Apache License, version 2.
+This code base is available under the Apache License, version 2.

@@ -1,4 +1,4 @@
-package dev.morling.demos.quarkus;
+package org.acme.todo;
 
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.core.MediaType;
@@ -19,6 +19,7 @@ public class TodoForm {
         return todo;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public Todo updateTodo(Todo toUpdate) {
         toUpdate.title = title;
         toUpdate.completed = "on".equals(completed);

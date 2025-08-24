@@ -1,4 +1,4 @@
-package dev.morling.demos.quarkus;
+package org.acme.todo;
 
 import java.net.URI;
 import java.util.List;
@@ -108,7 +108,7 @@ public class TodoResource {
             return Templates.error("Todo with id " + id + " has been deleted after loading this form.");
         }
 
-        loaded = todoForm.updateTodo(loaded);
+        todoForm.updateTodo(loaded);
 
         return Response.status(301)
             .location(URI.create("/todo"))
